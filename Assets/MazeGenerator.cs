@@ -7,8 +7,12 @@ public class MazeGenerator : MonoBehaviour {
 	public GameObject backgroundPrefab;
 	public GameObject shadowPrefab;
 	
+	public GameObject puzzleMapObject;
+	
 	public int r = 20;
 	public int c = 20;
+	
+	public GameObject[] player;
 	
 	private int[,] puzzleMap;
 	
@@ -28,6 +32,7 @@ public class MazeGenerator : MonoBehaviour {
 		InitializeMap();
 		StartGenerating();
 		VisualizeMap();
+		SpawnPlayer();
 	}
 	
 	void InitializeMap() {
@@ -149,45 +154,93 @@ public class MazeGenerator : MonoBehaviour {
 			for(int j=0;j<c;j++) {
 				if (puzzleMap[i, j] == 1) {
 					GameObject wall = Instantiate(frontPrefab) as GameObject;
-					wall.transform.position = new Vector3(i * 5, j * 5);
+					wall.transform.parent = puzzleMapObject.transform;
+					wall.transform.localPosition = new Vector3(i * 5, j * 5);
 					
 					GameObject shadow = Instantiate(shadowPrefab) as GameObject;
-					shadow.transform.position = new Vector3(i * 5 + 2.5f, j * 5 - 2.5f);
+					shadow.transform.parent = puzzleMapObject.transform;
+					shadow.transform.localPosition = new Vector3(i * 5 + 1f, j * 5 - 1f);
 				} else {
 					GameObject background = Instantiate(backgroundPrefab) as GameObject;
-					background.transform.position = new Vector3(i * 5, j * 5);
+					background.transform.parent = puzzleMapObject.transform;
+					background.transform.localPosition = new Vector3(i * 5, j * 5);
 				}
 			}
 		}
 		
 		for(int i=-1;i<=r;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
-			wall.transform.position = new Vector3(i * 5, -5);
+			wall.transform.parent = puzzleMapObject.transform;
+			wall.transform.localPosition = new Vector3(i * 5, -5);
 			
 			GameObject shadow = Instantiate(shadowPrefab) as GameObject;
-			shadow.transform.position = new Vector3(i * 5 + 2.5f, -5 - 2.5f);
+			shadow.transform.parent = puzzleMapObject.transform;
+			shadow.transform.localPosition = new Vector3(i * 5 + 1f, -5 - 1f);
 		}
 		for(int i=-1;i<=c;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
-			wall.transform.position = new Vector3(i * 5, r * 5);
+			wall.transform.parent = puzzleMapObject.transform;
+			wall.transform.localPosition = new Vector3(i * 5, r * 5);
 			
 			GameObject shadow = Instantiate(shadowPrefab) as GameObject;
-			shadow.transform.position = new Vector3(i * 5 + 2.5f, r * 5 - 2.5f);
+			shadow.transform.parent = puzzleMapObject.transform;
+			shadow.transform.localPosition = new Vector3(i * 5 + 1f, r * 5 - 1f);
 		}
 		for(int i=0;i<r;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
-			wall.transform.position = new Vector3(-5, i * 5);
+			wall.transform.parent = puzzleMapObject.transform;
+			wall.transform.localPosition = new Vector3(-5, i * 5);
 			
 			GameObject shadow = Instantiate(shadowPrefab) as GameObject;
-			shadow.transform.position = new Vector3(-5 + 2.5f, i * 5 - 2.5f);
+			shadow.transform.parent = puzzleMapObject.transform;
+			shadow.transform.localPosition = new Vector3(-5 + 1f, i * 5 - 1f);
 		}
 		for(int i=0;i<r;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
-			wall.transform.position = new Vector3(c * 5, i * 5);
+			wall.transform.parent = puzzleMapObject.transform;
+			wall.transform.localPosition = new Vector3(c * 5, i * 5);
 			
 			GameObject shadow = Instantiate(shadowPrefab) as GameObject;
-			shadow.transform.position = new Vector3(c * 5 + 2.5f, i * 5 - 2.5f);
+			shadow.transform.parent = puzzleMapObject.transform;
+			shadow.transform.localPosition = new Vector3(c * 5 + 1f, i * 5 - 1f);
 		}
+	}
+	
+	void SpawnPlayer() {
+		for(int i=0;i<c;i++) {
+			if (puzzleMap[i, r-1] == 0) {
+				player[0].transform.position = new Vector3(i * 5, (r - 1) * 5);
+				break;
+			}
+		}
+		
+		if (player.Length == 1) return;
+		for(int i=c-1;i>=0;i--) {
+			if (puzzleMap[i, r-1] == 0) {
+				player[1].transform.position = new Vector3(i * 5, (r - 1) * 5);
+				break;
+			}
+		}
+		
+		if (player.Length == 2) return;
+		for(int i=0;i<c;i++) {
+			if (puzzleMap[i, 0] == 0) {
+				player[2].transform.position = new Vector3(i * 5, 0);
+				break;
+			}
+		}
+		
+		if (player.Length == 3) return;
+		for(int i=c-1;i>=0;i--) {
+			if (puzzleMap[i, 0] == 0) {
+				player[3].transform.position = new Vector3(i * 5, 0);
+				break;
+			}
+		}
+	}
+	
+	public int[,] GetMap() {
+		return puzzleMap;
 	}
 	
 	// Update is called once per frame
