@@ -22,6 +22,20 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void InputManager() {
+		if (playerNumber == 0) {
+			bool left = Input.GetKey(KeyCode.LeftArrow);
+			bool right = Input.GetKey(KeyCode.RightArrow);
+			bool jet = Input.GetKey(KeyCode.UpArrow);
+			
+			if (left) axis = -0.5f;
+			else if (right) axis = 0.5f;
+			else axis = 0;
+			
+			if (jet) jetPack = 0.5f;
+			else jetPack = 0;
+			
+			dropBomb = Input.GetKeyDown(KeyCode.X);
+		}
 		if (playerNumber == 1) {
 			axis = Input.GetAxis("Player1_Axis");
 			jetPack = Input.GetAxis("Player1_JetPack");

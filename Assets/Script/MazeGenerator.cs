@@ -54,7 +54,7 @@ public class MazeGenerator : MonoBehaviour {
 		
 		while (stack.Count != 0) {
 			Vector2 top = (Vector2)stack.Pop();
-			//stack.Push(top);
+			stack.Push(top);
 			
 			/* SHUFFLE ARRAY
 				1 = TOP
@@ -82,15 +82,16 @@ public class MazeGenerator : MonoBehaviour {
 				if (arr[i] == 2) hasPotential |= GoRight(x, y + 1);
 				if (arr[i] == 3) hasPotential |= GoDown(x + 1, y);
 				if (arr[i] == 4) hasPotential |= GoLeft(x, y - 1);
-				//if (hasPotential) break;
+				if (hasPotential) break;
 			}
 			
-			//if (hasPotential == false) stack.Pop();
+			if (hasPotential == false) stack.Pop();
 		}
 	}
 	
 	bool GoTop(int x, int y) {
 		if (x < 0 || x >= r || y < 0 || y >= c) return false;
+		if (puzzleMap[x, y] == 0) return false;
 		
 		for(int i=0;i<5;i++) {
 			int _x = x + topX[i];
@@ -106,6 +107,7 @@ public class MazeGenerator : MonoBehaviour {
 	
 	bool GoRight(int x, int y) {
 		if (x < 0 || x >= r || y < 0 || y >= c) return false;
+		if (puzzleMap[x, y] == 0) return false;
 		
 		for(int i=0;i<5;i++) {
 			int _x = x + rightX[i];
@@ -121,6 +123,7 @@ public class MazeGenerator : MonoBehaviour {
 	
 	bool GoDown(int x, int y) {
 		if (x < 0 || x >= r || y < 0 || y >= c) return false;
+		if (puzzleMap[x, y] == 0) return false;
 		
 		for(int i=0;i<5;i++) {
 			int _x = x + downX[i];
@@ -136,6 +139,7 @@ public class MazeGenerator : MonoBehaviour {
 	
 	bool GoLeft(int x, int y) {
 		if (x < 0 || x >= r || y < 0 || y >= c) return false;
+		if (puzzleMap[x, y] == 0) return false;
 		
 		for(int i=0;i<5;i++) {
 			int _x = x + leftX[i];
@@ -147,6 +151,12 @@ public class MazeGenerator : MonoBehaviour {
 		puzzleMap[x, y] = 0;
 		stack.Push(new Vector2(x, y));
 		return true;
+	}
+	
+	bool CheckEmpty(int i, int j) {
+		if (i >= r || j >= c || i < 0 || j < 0) return false;
+		
+		return puzzleMap[i, j] == 0;
 	}
 	
 	void VisualizeMap() {
@@ -177,16 +187,16 @@ public class MazeGenerator : MonoBehaviour {
 			shadow.transform.parent = puzzleMapObject.transform;
 			shadow.transform.localPosition = new Vector3(i * 5 + 1f, -5 - 1f);
 		}
-		for(int i=-1;i<=c;i++) {
+		for(int i=-1;i<=r;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
 			wall.transform.parent = puzzleMapObject.transform;
-			wall.transform.localPosition = new Vector3(i * 5, r * 5);
+			wall.transform.localPosition = new Vector3(i * 5, c * 5);
 			
 			GameObject shadow = Instantiate(shadowPrefab) as GameObject;
 			shadow.transform.parent = puzzleMapObject.transform;
-			shadow.transform.localPosition = new Vector3(i * 5 + 1f, r * 5 - 1f);
+			shadow.transform.localPosition = new Vector3(i * 5 + 1f, c * 5 - 1f);
 		}
-		for(int i=0;i<r;i++) {
+		for(int i=0;i<c;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
 			wall.transform.parent = puzzleMapObject.transform;
 			wall.transform.localPosition = new Vector3(-5, i * 5);
@@ -195,35 +205,35 @@ public class MazeGenerator : MonoBehaviour {
 			shadow.transform.parent = puzzleMapObject.transform;
 			shadow.transform.localPosition = new Vector3(-5 + 1f, i * 5 - 1f);
 		}
-		for(int i=0;i<r;i++) {
+		for(int i=0;i<c;i++) {
 			GameObject wall = Instantiate(frontPrefab) as GameObject;
 			wall.transform.parent = puzzleMapObject.transform;
-			wall.transform.localPosition = new Vector3(c * 5, i * 5);
+			wall.transform.localPosition = new Vector3(r * 5, i * 5);
 			
 			GameObject shadow = Instantiate(shadowPrefab) as GameObject;
 			shadow.transform.parent = puzzleMapObject.transform;
-			shadow.transform.localPosition = new Vector3(c * 5 + 1f, i * 5 - 1f);
+			shadow.transform.localPosition = new Vector3(r * 5 + 1f, i * 5 - 1f);
 		}
 	}
 	
 	void SpawnPlayer() {
-		for(int i=0;i<c;i++) {
-			if (puzzleMap[i, r-1] == 0) {
-				player[0].transform.position = new Vector3(i * 5, (r - 1) * 5);
+		for(int i=0;i<r;i++) {
+			if (puzzleMap[i, c-1] == 0) {
+				player[0].transform.position = new Vector3(i * 5, (c - 1) * 5);
 				break;
 			}
 		}
 		
 		if (player.Length == 1) return;
-		for(int i=c-1;i>=0;i--) {
-			if (puzzleMap[i, r-1] == 0) {
-				player[1].transform.position = new Vector3(i * 5, (r - 1) * 5);
+		for(int i=r-1;i>=0;i--) {
+			if (puzzleMap[i, c-1] == 0) {
+				player[1].transform.position = new Vector3(i * 5, (c - 1) * 5);
 				break;
 			}
 		}
 		
 		if (player.Length == 2) return;
-		for(int i=0;i<c;i++) {
+		for(int i=0;i<r;i++) {
 			if (puzzleMap[i, 0] == 0) {
 				player[2].transform.position = new Vector3(i * 5, 0);
 				break;
@@ -231,7 +241,7 @@ public class MazeGenerator : MonoBehaviour {
 		}
 		
 		if (player.Length == 3) return;
-		for(int i=c-1;i>=0;i--) {
+		for(int i=r-1;i>=0;i--) {
 			if (puzzleMap[i, 0] == 0) {
 				player[3].transform.position = new Vector3(i * 5, 0);
 				break;
