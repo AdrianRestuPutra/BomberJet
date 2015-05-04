@@ -35,7 +35,6 @@ public class MainCameraScript : MonoBehaviour {
 				originRotation.w + Random.Range (-shake_intensity,shake_intensity) * .2f);
 			shake_intensity -= shake_decay;
 		} else {
-			Debug.Log("stopped shaking");
 			shaking = false;
 			//_transform.localPosition = originPosition;
 			_transform.localRotation = originRotation;	
@@ -72,7 +71,7 @@ public class MainCameraScript : MonoBehaviour {
 		float cameraY = Mathf.Max(differentY * 0.7f, 10);
 		float cameraX = Mathf.Max(differentX * 0.5f, 10);
 		
-		camera.orthographicSize = Mathf.Max(cameraY, cameraX);
+		GetComponent<Camera>().orthographicSize = Mathf.Max(cameraY, cameraX);
 		
 		gameObject.transform.position = new Vector3((xMin + xMax) / 2f, (yMin + yMax) / 2f, gameObject.transform.position.z);
 	}

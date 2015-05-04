@@ -55,10 +55,10 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
-		if (axis <= -0.5f) rigidbody2D.velocity = new Vector2(-moveForce, rigidbody2D.velocity.y);
-		else if (axis >= 0.5f) rigidbody2D.velocity = new Vector2(moveForce, rigidbody2D.velocity.y);
-		else rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+		if (axis <= -0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(-moveForce, GetComponent<Rigidbody2D>().velocity.y);
+		else if (axis >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(moveForce, GetComponent<Rigidbody2D>().velocity.y);
+		else GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
 		
-		if (jetPack >= 0.5f) rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jetForce);
+		if (jetPack >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jetForce);
 	}
 }
