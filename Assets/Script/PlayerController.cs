@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
@@ -8,8 +9,20 @@ public class PlayerController : MonoBehaviour {
 	public int playerNumber;
 	public GameObject bomb;
 	
+	// JET PACK THING
+	public GameObject jetPackFuelSlider;
+	public int jetFuel = 1000;
+	public int reduceFuelFactor = 2;
+	public int addFuelFactor = 1;
+	public float fuelSecondConstant = 0.01f;
+	public bool canDoJet = true;
+	
+	// DROP BOMB THING
+	public int maxDropBomb = 1;
+	
 	private float axis, jetPack;
 	private bool dropBomb;
+	private float second = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,9 +32,35 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		InputManager();
+		CalculateJetFuel();
+	}
+	
+	void CalculateJetFuel() {
+		second += Time.deltaTime;
+		if (second >= fuelSecondConstant) {
+			second = 0.0f;
+			if (jetPack >= 0.5f && canDoJet) {
+				if (jetFuel > 0)
+					jetFuel -= reduceFuelFactor;
+			} else {
+				if (jetFuel < 1000) 
+					jetFuel += addFuelFactor;
+			}
+			if (jetFuel <= 0) {
+				jetFuel = 0;
+				canDoJet = false;
+			}
+			if (jetFuel >= 1000) {
+				jetFuel = 1000;
+				canDoJet = true;
+			}
+			jetPackFuelSlider.GetComponent<Slider>().value = jetFuel;
+		}
 	}
 	
 	void InputManager() {
+		if (Input.GetKeyDown(KeyCode.Escape))
+			Application.LoadLevel(Application.loadedLevel);
 		if (playerNumber == 0) {
 			bool left = Input.GetKey(KeyCode.LeftArrow);
 			bool right = Input.GetKey(KeyCode.RightArrow);
@@ -46,12 +85,19 @@ public class PlayerController : MonoBehaviour {
 			jetPack = Input.GetAxis("Player2_JetPack");
 		}
 		
-		if (dropBomb) DropBomb();
+		if (dropBomb && maxDropBomb > 0) DropBomb();
 	}
 	
 	void DropBomb() {	
 		GameObject _bomb = Instantiate(bomb) as GameObject;
+		_bomb.GetComponent<BombScript>().player = gameObject;
 		_bomb.transform.position = gameObject.transform.position;
+		
+		maxDropBomb--;
+	}
+	
+	public void AddMaxDropBomb(int bomb) {
+		maxDropBomb += bomb;
 	}
 	
 	void FixedUpdate() {
@@ -59,6 +105,10 @@ public class PlayerController : MonoBehaviour {
 		else if (axis >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(moveForce, GetComponent<Rigidbody2D>().velocity.y);
 		else GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
 		
-		if (jetPack >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jetForce);
+		if (jetPack >= 0.5f && canDoJet) GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jetForce);
+	}
+	
+	public void Dead() {
+		Destroy(gameObject);
 	}
 }

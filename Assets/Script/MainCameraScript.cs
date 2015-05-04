@@ -10,8 +10,11 @@ public class MainCameraScript : MonoBehaviour {
 	private Quaternion originRotation;
 	public float shake_decay;
 	public float shake_intensity;
+	
 	private bool shaking;
 	private Transform _transform;
+	
+	private Vector3 velocity = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -52,12 +55,14 @@ public class MainCameraScript : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
-		float xMin = player[0].transform.position.x;
-		float xMax = player[0].transform.position.x;
-		float yMin = player[0].transform.position.y;
-		float yMax = player[0].transform.position.y;
+		float xMin = 1000000000;
+		float xMax = 0;
+		float yMin = 1000000000;
+		float yMax = 0;
 		
 		for(int i=0;i<player.Length;i++) {
+			if (player[i] == null) continue;
+		
 			xMin = Mathf.Min(xMin, player[i].transform.position.x);
 			xMax = Mathf.Max(xMax, player[i].transform.position.x);
 			
@@ -71,8 +76,19 @@ public class MainCameraScript : MonoBehaviour {
 		float cameraY = Mathf.Max(differentY * 0.7f, 10);
 		float cameraX = Mathf.Max(differentX * 0.5f, 10);
 		
-		GetComponent<Camera>().orthographicSize = Mathf.Max(cameraY, cameraX);
+		//GetComponent<Camera>().orthographicSize = Mathf.Max(cameraY, cameraX);
+		GetComponent<Camera>().orthographicSize = Mathf.Lerp(
+											GetComponent<Camera>().orthographicSize,
+											Mathf.Max(cameraX, cameraY),
+											3 * Time.deltaTime);
 		
-		gameObject.transform.position = new Vector3((xMin + xMax) / 2f, (yMin + yMax) / 2f, gameObject.transform.position.z);
+		float X = (xMin + xMax) / 2f;
+		float Y = (yMin + yMax) / 2f;
+		float Z = gameObject.transform.position.z;
+		
+		
+		
+		//gameObject.transform.position = new Vector3((xMin + xMax) / 2f, (yMin + yMax) / 2f, gameObject.transform.position.z);
+		transform.position = Vector3.SmoothDamp(transform.position, new Vector3(X, Y, Z), ref velocity, 0.2f);
 	}
 }

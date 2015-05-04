@@ -8,6 +8,7 @@ public class BombScript : MonoBehaviour {
 	public GameObject horizontalBullet;
 	public GameObject verticalBullet;
 	public float bulletForce = 5;
+	public GameObject player;
 	
 	private float secondPass = 0;
 
@@ -47,6 +48,8 @@ public class BombScript : MonoBehaviour {
 		right.transform.position = transform.position;
 		down.transform.position = transform.position;
 		up.transform.position = transform.position;
+		
+		player.GetComponent<PlayerController>().AddMaxDropBomb(1);
 		
 		Destroy(gameObject);
 	}

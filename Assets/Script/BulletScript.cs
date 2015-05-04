@@ -30,6 +30,10 @@ public class BulletScript : MonoBehaviour {
 			ExplodeSound.transform.position = transform.position;
 			
 			Destroy(gameObject);
+		} else {
+			if (other.tag == "Player") {
+				other.gameObject.GetComponent<PlayerController>().Dead();
+			}
 		}
 	}
 }
