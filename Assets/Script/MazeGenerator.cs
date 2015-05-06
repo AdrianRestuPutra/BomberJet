@@ -7,12 +7,14 @@ public class MazeGenerator : MonoBehaviour {
 	public GameObject backgroundPrefab;
 	public GameObject shadowPrefab;
 	
+	public GameObject box;
+	
+	public GameObject[] players;
+	
 	public GameObject puzzleMapObject;
 	
 	public int r = 20;
 	public int c = 20;
-	
-	public GameObject[] player;
 	
 	private int[,] puzzleMap;
 	
@@ -219,32 +221,46 @@ public class MazeGenerator : MonoBehaviour {
 	void SpawnPlayer() {
 		for(int i=0;i<r;i++) {
 			if (puzzleMap[i, c-1] == 0) {
-				player[0].transform.position = new Vector3(i * 5, (c - 1) * 5);
+				players[0].transform.position = new Vector3(i * 5, (c - 1) * 5);
 				break;
 			}
 		}
 		
-		if (player.Length == 1) return;
+		if (players.Length == 1) return;
 		for(int i=r-1;i>=0;i--) {
 			if (puzzleMap[i, c-1] == 0) {
-				player[1].transform.position = new Vector3(i * 5, (c - 1) * 5);
+				players[1].transform.position = new Vector3(i * 5, (c - 1) * 5);
 				break;
 			}
 		}
 		
-		if (player.Length == 2) return;
+		if (players.Length == 2) return;
 		for(int i=0;i<r;i++) {
 			if (puzzleMap[i, 0] == 0) {
-				player[2].transform.position = new Vector3(i * 5, 0);
+				players[2].transform.position = new Vector3(i * 5, 0);
 				break;
 			}
 		}
 		
-		if (player.Length == 3) return;
+		if (players.Length == 3) return;
 		for(int i=r-1;i>=0;i--) {
 			if (puzzleMap[i, 0] == 0) {
-				player[3].transform.position = new Vector3(i * 5, 0);
+				players[3].transform.position = new Vector3(i * 5, 0);
 				break;
+			}
+		}
+	}
+	
+	public void PlaceBoxBonus() {
+		for(int i=0;i<r;i++) {
+			for(int j=0;j<c;j++) {
+				if (puzzleMap[i, j] == 0) {
+					if (Random.Range(1, 100) >= 90) {
+						GameObject _box = Instantiate(box) as GameObject;
+						_box.transform.position = new Vector3(i * 5, j * 5);
+						return;
+					}
+				}
 			}
 		}
 	}

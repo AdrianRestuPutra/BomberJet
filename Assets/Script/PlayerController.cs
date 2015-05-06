@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Photon.MonoBehaviour {
 
 	public float moveForce = 5;
 	public float jetForce = 5;
@@ -31,7 +31,10 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		InputManager();
+		if (photonView) {
+			if (photonView.isMine)
+				InputManager();
+		} else InputManager();
 		CalculateJetFuel();
 	}
 	
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour {
 		if (playerNumber == 2) {
 			axis = Input.GetAxis("Player2_Axis");
 			jetPack = Input.GetAxis("Player2_JetPack");
+			dropBomb = Input.GetKeyDown(KeyCode.Joystick2Button1);
 		}
 		
 		if (dropBomb && maxDropBomb > 0) DropBomb();
@@ -110,5 +114,11 @@ public class PlayerController : MonoBehaviour {
 	
 	public void Dead() {
 		Destroy(gameObject);
+	}
+	
+	public void GameFinished() {
+		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
+		enabled = false;
 	}
 }

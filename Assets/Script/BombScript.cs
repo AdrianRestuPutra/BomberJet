@@ -49,7 +49,8 @@ public class BombScript : MonoBehaviour {
 		down.transform.position = transform.position;
 		up.transform.position = transform.position;
 		
-		player.GetComponent<PlayerController>().AddMaxDropBomb(1);
+		if (player)
+			player.GetComponent<PlayerController>().AddMaxDropBomb(1);
 		
 		Destroy(gameObject);
 	}

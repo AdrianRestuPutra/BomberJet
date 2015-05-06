@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class MainCameraScript : MonoBehaviour {
-
-	public GameObject[] player;
 	
 	// SHAKE CAMERA
 	private Vector3 originPosition;
@@ -59,6 +58,8 @@ public class MainCameraScript : MonoBehaviour {
 		float xMax = 0;
 		float yMin = 1000000000;
 		float yMax = 0;
+		
+		GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
 		
 		for(int i=0;i<player.Length;i++) {
 			if (player[i] == null) continue;
