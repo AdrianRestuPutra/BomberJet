@@ -104,6 +104,26 @@ public class PlayerController : Photon.MonoBehaviour {
 		maxDropBomb += bomb;
 	}
 	
+	public void GoingUp() {
+		jetPack = 1f;
+	}
+	
+	public void GoingDown() {
+		jetPack = 0f;
+	}
+	
+	public void GoLeft() {
+		axis = -1f;
+	}
+	
+	public void GoRight() {
+		axis = 1f;
+	}
+	
+	public void Stop() {
+		axis = 0f;
+	}
+	
 	void FixedUpdate() {
 		if (axis <= -0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(-moveForce, GetComponent<Rigidbody2D>().velocity.y);
 		else if (axis >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(moveForce, GetComponent<Rigidbody2D>().velocity.y);
@@ -118,6 +138,7 @@ public class PlayerController : Photon.MonoBehaviour {
 	
 	public void GameFinished() {
 		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<Rigidbody2D>().isKinematic = true;
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
 		enabled = false;
 	}

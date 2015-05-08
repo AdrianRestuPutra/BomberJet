@@ -252,17 +252,20 @@ public class MazeGenerator : MonoBehaviour {
 	}
 	
 	public void PlaceBoxBonus() {
-		for(int i=0;i<r;i++) {
-			for(int j=0;j<c;j++) {
-				if (puzzleMap[i, j] == 0) {
-					if (Random.Range(1, 100) >= 90) {
-						GameObject _box = Instantiate(box) as GameObject;
-						_box.transform.position = new Vector3(i * 5, j * 5);
-						return;
-					}
-				}
+		for(int i=0;i<100;i++) {
+			int R = Random.Range(0, r);
+			int C = Random.Range(0, c);
+			if (puzzleMap[R, C] == 0) {
+				GameObject _box = Instantiate(box, new Vector3(R * 5, C * 5), Quaternion.identity) as GameObject;
+				_box.GetComponent<BoxBonus>().SetPosition(R, C);
+				puzzleMap[R, C] = 2;
+				break;
 			}
 		}
+	}
+	
+	public void FreeBoxBonus(int R, int C) {
+		puzzleMap[R, C] = 0;
 	}
 	
 	public int[,] GetMap() {

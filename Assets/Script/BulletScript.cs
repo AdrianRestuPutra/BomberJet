@@ -26,8 +26,7 @@ public class BulletScript : MonoBehaviour {
 		if (other.tag == "Wall") {
 			GameObject.Find("Main Camera").GetComponent<MainCameraScript>().Shake();
 			
-			GameObject ExplodeSound = Instantiate(soundExplode) as GameObject;
-			ExplodeSound.transform.position = transform.position;
+			Instantiate(soundExplode, transform.position, transform.rotation);
 			
 			Destroy(gameObject);
 		} else {
