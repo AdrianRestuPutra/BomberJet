@@ -24,7 +24,8 @@ public class BulletScript : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag == "Wall") {
-			GameObject.Find("Main Camera").GetComponent<MainCameraScript>().Shake();
+			if (GameObject.Find("Main Camera").GetComponent<MainCameraScript>())
+				GameObject.Find("Main Camera").GetComponent<MainCameraScript>().Shake();
 			
 			Instantiate(soundExplode, transform.position, transform.rotation);
 			

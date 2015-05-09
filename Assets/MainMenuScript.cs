@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MainMenuScript : MonoBehaviour {
 
+	public GameObject localMultiplayerMenu;
 	public GameObject mainCamera;
 	public GameObject[] listMenu;
 	
@@ -30,8 +31,11 @@ public class MainMenuScript : MonoBehaviour {
 		listMenu[indexMenu].GetComponent<MenuSelectorScript>().isSelected = true;
 		
 		if (select) {
-			if (indexMenu == 0)
+			if (indexMenu == 0) {
 				mainCamera.GetComponent<Animator>().SetTrigger("Up");
+				localMultiplayerMenu.GetComponent<LocalMultiplayerMainMenuScript>().enabled = true;
+				this.enabled = false;
+			}
 		}
 	}
 }

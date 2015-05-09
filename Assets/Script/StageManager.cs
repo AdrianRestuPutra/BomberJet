@@ -4,13 +4,38 @@ using System.Collections;
 
 public class StageManager : MonoBehaviour {
 
+	public GameObject player;
 	public GameObject winnerTag;
 	public GameObject mazeGenerator;
+	
+	public GameObject[] jetPackFuel;
+	
+	public GameObject[] HUD;
 	
 	private bool isGameFinished = false;
 	
 	private float second = 0f;
 	private float dropedBox = 0f;
+
+	void Awake () {
+		GameObject gameData = GameObject.Find("Game Data");
+		
+		int jumlahPemain = gameData.GetComponent<GameDataLocal>().jumlahPemain;
+		int[] controller = gameData.GetComponent<GameDataLocal>().controller;
+		
+		GameObject[] listPemain = new GameObject[jumlahPemain];
+		
+		for(int i=0;i<listPemain.Length;i++) {
+			listPemain[i] = Instantiate(player);
+			listPemain[i].GetComponent<PlayerController>().playerNumber = controller[i];
+			listPemain[i].GetComponent<PlayerController>().jetPackFuelSlider = jetPackFuel[i];
+		}
+		
+		for(int i=listPemain.Length;i<HUD.Length;i++)
+			Destroy(HUD[i]);
+		
+		mazeGenerator.GetComponent<MazeGenerator>().players = listPemain;
+	}
 
 	// Use this for initialization
 	void Start () {

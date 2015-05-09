@@ -62,6 +62,8 @@ public class PlayerController : Photon.MonoBehaviour {
 	}
 	
 	void InputManager() {
+		if (Input.GetKeyDown(KeyCode.M))
+			Application.LoadLevel("Main Menu");
 		if (Input.GetKeyDown(KeyCode.Escape))
 			Application.LoadLevel(Application.loadedLevel);
 		if (playerNumber == 0) {
@@ -81,12 +83,12 @@ public class PlayerController : Photon.MonoBehaviour {
 		if (playerNumber == 1) {
 			axis = Input.GetAxis("Player1_Axis");
 			jetPack = Input.GetAxis("Player1_JetPack");
-			dropBomb = Input.GetKeyDown(KeyCode.Joystick1Button1);
+			dropBomb = Input.GetKeyDown(KeyCode.Joystick1Button2);
 		}
 		if (playerNumber == 2) {
 			axis = Input.GetAxis("Player2_Axis");
 			jetPack = Input.GetAxis("Player2_JetPack");
-			dropBomb = Input.GetKeyDown(KeyCode.Joystick2Button1);
+			dropBomb = Input.GetKeyDown(KeyCode.Joystick2Button2);
 		}
 		
 		if (dropBomb && maxDropBomb > 0) DropBomb();
