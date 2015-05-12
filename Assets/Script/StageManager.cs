@@ -16,6 +16,8 @@ public class StageManager : MonoBehaviour {
 	
 	private float second = 0f;
 	private float dropedBox = 0f;
+	
+	private float timePlay = 0f;
 
 	void Awake () {
 		GameObject gameData = GameObject.Find("Game Data");
@@ -39,7 +41,7 @@ public class StageManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame
@@ -50,6 +52,12 @@ public class StageManager : MonoBehaviour {
 				Application.LoadLevel(Application.loadedLevel);
 				second = 0;
 			}
+		}
+		
+		timePlay += Time.deltaTime;
+		if (timePlay >= 30) {
+			timePlay = 0;
+			Time.timeScale = Mathf.Min(Time.timeScale + 0.25f, 2.5f);
 		}
 		
 		dropedBox += Time.deltaTime;
@@ -64,6 +72,11 @@ public class StageManager : MonoBehaviour {
 		if (GameObject.FindGameObjectsWithTag("Player").Length == 1) {
 			isGameFinished = true;
 			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GameFinished();
+			winnerTag.GetComponent<Text>().text = "WINNER";
+			winnerTag.GetComponent<Text>().color = new Color(1, 1, 1, 1);
+		} else if (GameObject.FindGameObjectsWithTag("Player").Length == 0) {
+			isGameFinished = true;
+			winnerTag.GetComponent<Text>().text = "DRAW";
 			winnerTag.GetComponent<Text>().color = new Color(1, 1, 1, 1);
 		}
 	}

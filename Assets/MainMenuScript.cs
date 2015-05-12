@@ -4,6 +4,7 @@ using System.Collections;
 public class MainMenuScript : MonoBehaviour {
 
 	public GameObject localMultiplayerMenu;
+	public GameObject onlineMultiplayerLobby;
 	public GameObject mainCamera;
 	public GameObject[] listMenu;
 	
@@ -11,6 +12,7 @@ public class MainMenuScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Time.timeScale = 1f;
 		indexMenu = 0;
 	}
 	
@@ -34,6 +36,11 @@ public class MainMenuScript : MonoBehaviour {
 			if (indexMenu == 0) {
 				mainCamera.GetComponent<Animator>().SetTrigger("Up");
 				localMultiplayerMenu.GetComponent<LocalMultiplayerMainMenuScript>().enabled = true;
+				this.enabled = false;
+			}
+			if (indexMenu == 1) {
+				mainCamera.GetComponent<Animator>().SetTrigger("Right");
+				onlineMultiplayerLobby.GetComponent<OnlineMultiplayerLobbyScript>().enabled = true;
 				this.enabled = false;
 			}
 		}

@@ -43,7 +43,7 @@ public class GameLogic : MonoBehaviour
         ScenePhotonView.RPC("TaggedPlayer", PhotonTargets.All, playerID);
     }
 
-    [RPC]
+//    [RPC]
     public void TaggedPlayer(int playerID)
     {
         playerWhoIsIt = playerID;

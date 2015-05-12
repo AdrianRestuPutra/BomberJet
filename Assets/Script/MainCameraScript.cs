@@ -54,10 +54,10 @@ public class MainCameraScript : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
-		float xMin = 1000000000;
-		float xMax = 0;
-		float yMin = 1000000000;
-		float yMax = 0;
+		float xMin = transform.position.x;
+		float xMax = transform.position.x;
+		float yMin = transform.position.y;
+		float yMax = transform.position.y;
 		
 		GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
 		
