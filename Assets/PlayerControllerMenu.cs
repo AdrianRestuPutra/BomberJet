@@ -50,7 +50,7 @@ public class PlayerControllerMenu : MonoBehaviour {
 			dropBomb = Input.GetKeyDown(KeyCode.Joystick2Button2);
 		}
 		
-		if (dropBomb && maxDropBomb > 0) {
+		if (dropBomb) {
 			GameObject _bomb = Instantiate(bomb) as GameObject;
 			_bomb.transform.position = gameObject.transform.position;
 		}

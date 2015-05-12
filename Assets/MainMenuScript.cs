@@ -8,7 +8,7 @@ public class MainMenuScript : MonoBehaviour {
 	public GameObject mainCamera;
 	public GameObject[] listMenu;
 	
-	private int indexMenu;
+	public int indexMenu;
 
 	// Use this for initialization
 	void Start () {
@@ -33,16 +33,20 @@ public class MainMenuScript : MonoBehaviour {
 		listMenu[indexMenu].GetComponent<MenuSelectorScript>().isSelected = true;
 		
 		if (select) {
-			if (indexMenu == 0) {
-				mainCamera.GetComponent<Animator>().SetTrigger("Up");
-				localMultiplayerMenu.GetComponent<LocalMultiplayerMainMenuScript>().enabled = true;
-				this.enabled = false;
-			}
-			if (indexMenu == 1) {
-				mainCamera.GetComponent<Animator>().SetTrigger("Right");
-				onlineMultiplayerLobby.GetComponent<OnlineMultiplayerLobbyScript>().enabled = true;
-				this.enabled = false;
-			}
+			if (indexMenu == 0) GoToLocalMultiplayer();
+			if (indexMenu == 1) GoToOnlineMultiplayer();
 		}
+	}
+	
+	public void GoToLocalMultiplayer() {
+		mainCamera.GetComponent<Animator>().SetTrigger("Up");
+		localMultiplayerMenu.GetComponent<LocalMultiplayerMainMenuScript>().enabled = true;
+		this.enabled = false;
+	}
+	
+	public void GoToOnlineMultiplayer() {
+		mainCamera.GetComponent<Animator>().SetTrigger("Right");
+		onlineMultiplayerLobby.GetComponent<OnlineMultiplayerLobbyScript>().enabled = true;
+		this.enabled = false;
 	}
 }

@@ -10,6 +10,9 @@ public class MenuSelectorScript : MonoBehaviour {
 	
 	public float scaleSelected = 0.8f;
 	public float scaleNotSelected = 0.7f;
+	
+	public GameObject mainMenu;
+	public int menuNumber;
 
 	// Use this for initialization
 	void Start () {
@@ -29,5 +32,14 @@ public class MenuSelectorScript : MonoBehaviour {
 			transform.localScale = new Vector3(scaleNotSelected, scaleNotSelected, 1);
 			GetComponent<SpriteRenderer>().sprite = notSelected;
 		}
+	}
+	
+	void OnMouseOver() {
+		mainMenu.GetComponent<MainMenuScript>().indexMenu = menuNumber;
+	}
+	
+	void OnMouseDown() {
+		if (menuNumber == 0) mainMenu.GetComponent<MainMenuScript>().GoToLocalMultiplayer();
+		if (menuNumber == 1) mainMenu.GetComponent<MainMenuScript>().GoToOnlineMultiplayer();
 	}
 }
