@@ -17,8 +17,8 @@ public class PlayerControllerMenuOnline : Photon.MonoBehaviour {
 	void Awake () {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 		endPosition = transform.position;
-		/*if (!photonView.isMine)
-			Destroy(rigidbody2D);*/
+		if (!photonView.isMine)
+			Destroy(rigidbody2D);
 	}
 	
 	// Use this for initialization
@@ -73,17 +73,17 @@ public class PlayerControllerMenuOnline : Photon.MonoBehaviour {
 			else jetPack = 0;
 			
 			if (dropBomb)
-				DropBomb();
+				DropBomb(gameObject.transform.position);
 		}
 	}
 	
 	[RPC]
-	void DropBomb() {
+	void DropBomb(Vector3 position) {
 		GameObject _bomb = Instantiate(bomb) as GameObject;
-		_bomb.transform.position = gameObject.transform.position;
+		_bomb.transform.position = position;
 		
 		if (photonView.isMine)
-			PhotonNetwork.RPC(photonView, "DropBomb", PhotonTargets.Others, true);
+			PhotonNetwork.RPC(photonView, "DropBomb", PhotonTargets.Others, true, position);
 	}
 	
 	void FixedUpdate() {
