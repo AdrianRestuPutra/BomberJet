@@ -49,4 +49,8 @@ public class MainMenuScript : MonoBehaviour {
 		onlineMultiplayerLobby.GetComponent<OnlineMultiplayerLobbyScript>().enabled = true;
 		this.enabled = false;
 	}
+	
+	public void GoToExit() {
+		Application.Quit();
+	}
 }
