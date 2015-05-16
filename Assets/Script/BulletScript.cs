@@ -18,6 +18,14 @@ public class BulletScript : MonoBehaviour {
 		
 	}
 	
+	public void GoingLeft() {
+		transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+	}
+	
+	public void GoindDown() {
+		transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
+	}
+	
 	void FixedUpdate () {
 		GetComponent<Rigidbody2D>().velocity = new Vector2(bulletForceHorizontal, bulletForceVertical);
 	}

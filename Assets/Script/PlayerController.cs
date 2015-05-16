@@ -97,7 +97,7 @@ public class PlayerController : Photon.MonoBehaviour {
 	void DropBomb() {	
 		GameObject _bomb = Instantiate(bomb) as GameObject;
 		_bomb.GetComponent<BombScript>().player = gameObject;
-		_bomb.transform.position = gameObject.transform.position;
+		_bomb.transform.position = new Vector3(transform.position.x, transform.position.y, -1);
 		
 		maxDropBomb--;
 	}

@@ -59,22 +59,24 @@ public class PlayerControllerMenuOnline : Photon.MonoBehaviour {
 	}
 
 	void InputManager() {
-		if (playerNumber == 0) {
-			bool left = Input.GetKey(KeyCode.LeftArrow);
-			bool right = Input.GetKey(KeyCode.RightArrow);
-			bool jet = Input.GetKey(KeyCode.UpArrow);
-			bool dropBomb = Input.GetKeyDown(KeyCode.X);
-			
-			if (left) axis = -0.5f;
-			else if (right) axis = 0.5f;
-			else axis = 0;
-			
-			if (jet) jetPack = 0.5f;
-			else jetPack = 0;
-			
-			if (dropBomb)
-				DropBomb(gameObject.transform.position);
-		}
+		bool left = Input.GetKey(KeyCode.LeftArrow);
+		bool right = Input.GetKey(KeyCode.RightArrow);
+		bool jet = Input.GetKey(KeyCode.UpArrow);
+		bool dropBomb = Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.JoystickButton2);
+		
+		if (left) axis = -0.5f;
+		else if (right) axis = 0.5f;
+		else axis = 0;
+		
+		axis = Input.GetAxis("Player_Axis");
+		
+		if (jet) jetPack = 0.5f;
+		else jetPack = 0;
+		
+		jetPack = Input.GetAxis("Player_Jetpack");
+		
+		if (dropBomb)
+			DropBomb(gameObject.transform.position);
 	}
 	
 	[RPC]
