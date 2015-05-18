@@ -52,7 +52,7 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 				if (inputList[i] && sudah[i] == false) {
 					for(int j=0;j<4;j++) {
 						if (listPlayer[j] == null) {
-							listPlayer[j] = Instantiate(playerMenu);
+							listPlayer[j] = Instantiate(playerMenu, new Vector3(0, 50, playerMenu.transform.position.z), Quaternion.identity) as GameObject;
 							gamepadPlayer[j] = i;
 							listPlayer[j].GetComponent<PlayerControllerMenu>().playerNumber = i;
 							sudah[i] = true;

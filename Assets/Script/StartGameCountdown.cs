@@ -56,6 +56,7 @@ public class StartGameCountdown : MonoBehaviour {
 		if (stopCountdown == true) {
 			stopCountdown = false;
 			countdown = 15;
+			GetComponent<TextMesh>().text = countdown + "";
 			GetComponent<MeshRenderer>().enabled = true;
 		}
 	}

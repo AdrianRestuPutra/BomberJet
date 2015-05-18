@@ -13,14 +13,15 @@ public class OnlineMultiplayerLobbyScript : MonoBehaviour {
 	void Start () {
 		PhotonNetwork.autoJoinLobby = true;
 		PhotonNetwork.player.name = "Madya121";
+		print (PhotonNetwork.sendRateOnSerialize);
 		if (!PhotonNetwork.connected)
-			PhotonNetwork.ConnectToMaster("192.168.1.163", 5055, "BomberJet", "0.1");
+			PhotonNetwork.ConnectToMaster("192.168.1.102", 5055, "BomberJet", "0.1");
 			//PhotonNetwork.ConnectUsingSettings("0.1");
 	}
 	
 	void OnEnable() {
 		if (!PhotonNetwork.connected)
-			PhotonNetwork.ConnectToMaster("192.168.1.163", 5055, "BomberJet", "0.1");
+			PhotonNetwork.ConnectToMaster("192.168.1.102", 5055, "BomberJet", "0.1");
 			//PhotonNetwork.ConnectUsingSettings("0.1");
 	}
 	

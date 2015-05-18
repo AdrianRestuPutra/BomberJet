@@ -44,10 +44,10 @@ public class BombScript : MonoBehaviour {
 		down.GetComponent<BulletScript>().bulletForceVertical = -bulletForce;
 		up.GetComponent<BulletScript>().bulletForceVertical = bulletForce;
 		
-		left.GetComponent<ParticleSystem>().enableEmission = true;
+		/*left.GetComponent<ParticleSystem>().enableEmission = true;
 		right.GetComponent<ParticleSystem>().enableEmission = true;
 		up.GetComponent<ParticleSystem>().enableEmission = true;
-		down.GetComponent<ParticleSystem>().enableEmission = true;
+		down.GetComponent<ParticleSystem>().enableEmission = true;*/
 		
 		left.GetComponent<BulletScript>().GoingLeft();
 		down.GetComponent<BulletScript>().GoindDown();
