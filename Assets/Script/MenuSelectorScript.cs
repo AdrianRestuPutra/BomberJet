@@ -41,6 +41,7 @@ public class MenuSelectorScript : MonoBehaviour {
 	void OnMouseDown() {
 		if (menuNumber == 0) mainMenu.GetComponent<MainMenuScript>().GoToLocalMultiplayer();
 		if (menuNumber == 1) mainMenu.GetComponent<MainMenuScript>().GoToOnlineMultiplayer();
+		if (menuNumber == 2) mainMenu.GetComponent<MainMenuScript>().GoToSetting();
 		if (menuNumber == 3) mainMenu.GetComponent<MainMenuScript>().GoToExit();
 	}
 }

@@ -7,6 +7,7 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 	public GameObject mainMenu;
 	public GameObject playerMenu;
 	public GameObject countdown;
+	public GameObject pointCharacterSelection;
 
 	private GameObject[] listPlayer = new GameObject[4];
 	private int[] gamepadPlayer = new int[4];
@@ -54,7 +55,9 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 						if (listPlayer[j] == null) {
 							listPlayer[j] = Instantiate(playerMenu, new Vector3(0, 50, playerMenu.transform.position.z), Quaternion.identity) as GameObject;
 							gamepadPlayer[j] = i;
-							listPlayer[j].GetComponent<PlayerControllerMenu>().playerNumber = i;
+							listPlayer[j].GetComponent<PlayerControllerMenu>().controllerType = i;
+							listPlayer[j].GetComponent<PlayerControllerMenu>().playerNumber = j;
+							pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().NewPlayerJoin(j);
 							sudah[i] = true;
 							break;
 						}
@@ -79,6 +82,7 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 						if (gamepadPlayer[j] == i) {
 							sudah[i] = false;
 							Destroy(listPlayer[j]);
+							pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().RemovePlayer(j);
 							break;
 						}
 					}

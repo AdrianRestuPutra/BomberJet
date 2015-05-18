@@ -35,6 +35,7 @@ public class MainMenuScript : MonoBehaviour {
 		if (select) {
 			if (indexMenu == 0) GoToLocalMultiplayer();
 			if (indexMenu == 1) GoToOnlineMultiplayer();
+			if (indexMenu == 2) GoToSetting();
 		}
 	}
 	
@@ -47,6 +48,11 @@ public class MainMenuScript : MonoBehaviour {
 	public void GoToOnlineMultiplayer() {
 		mainCamera.GetComponent<Animator>().SetTrigger("Right");
 		onlineMultiplayerLobby.GetComponent<OnlineMultiplayerLobbyScript>().enabled = true;
+		this.enabled = false;
+	}
+	
+	public void GoToSetting() {
+		mainCamera.GetComponent<Animator>().SetTrigger("Setting");
 		this.enabled = false;
 	}
 	
