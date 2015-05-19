@@ -15,6 +15,7 @@ public class PlayerControllerMenu : MonoBehaviour {
 	private float jetPack;
 	private bool dropBomb;
 	private bool nextPlayer, prevPlayer;
+	private bool special = false;
 	
 	private GameObject pointCharacterSelection;
 
@@ -37,6 +38,7 @@ public class PlayerControllerMenu : MonoBehaviour {
 			bool left = Input.GetKey(KeyCode.LeftArrow);
 			bool right = Input.GetKey(KeyCode.RightArrow);
 			bool jet = Input.GetKey(KeyCode.UpArrow);
+			special = Input.GetKeyDown(KeyCode.Z);
 			
 			nextPlayer = Input.GetKeyDown(KeyCode.E);
 			prevPlayer = Input.GetKeyDown(KeyCode.Q);
@@ -72,6 +74,14 @@ public class PlayerControllerMenu : MonoBehaviour {
 		
 		if (nextPlayer) pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().CharacterChoose(playerNumber, 1);
 		if (prevPlayer) pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().CharacterChoose(playerNumber, -1);
+		
+		if (special) DoSpecial();
+	}
+	
+	void DoSpecial() {
+		GameObject[] bomb = GameObject.FindGameObjectsWithTag("Bomb");
+		for(int i=0;i<bomb.Length;i++)
+			bomb[i].GetComponent<BombScript>().AddBlastVorce(transform.position, 10, 700);
 	}
 	
 	void FixedUpdate() {

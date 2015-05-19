@@ -57,7 +57,7 @@ public class StageManager : MonoBehaviour {
 		timePlay += Time.deltaTime;
 		if (timePlay >= 30) {
 			timePlay = 0;
-			Time.timeScale = Mathf.Min(Time.timeScale + 0.25f, 2.5f);
+			//Time.timeScale = Mathf.Min(Time.timeScale + 0.25f, 2.5f);
 		}
 		
 		dropedBox += Time.deltaTime;

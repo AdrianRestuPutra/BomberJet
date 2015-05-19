@@ -40,7 +40,8 @@ public class BulletScript : MonoBehaviour {
 			Destroy(gameObject);
 		} else {
 			if (other.tag == "Player") {
-				other.gameObject.GetComponent<PlayerController>().Dead();
+				if (other.gameObject.GetComponent<PlayerController>())
+					other.gameObject.GetComponent<PlayerController>().Dead();
 			}
 		}
 	}
