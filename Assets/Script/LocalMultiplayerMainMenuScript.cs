@@ -57,7 +57,7 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 							gamepadPlayer[j] = i;
 							listPlayer[j].GetComponent<PlayerControllerMenu>().controllerType = i;
 							listPlayer[j].GetComponent<PlayerControllerMenu>().playerNumber = j;
-							pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().NewPlayerJoin(j);
+							pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().NewPlayerJoin(listPlayer[j], j);
 							sudah[i] = true;
 							break;
 						}

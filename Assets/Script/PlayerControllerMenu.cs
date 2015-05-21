@@ -10,6 +10,8 @@ public class PlayerControllerMenu : MonoBehaviour {
 	public Sprite[] playerSelector;
 	
 	public GameObject bomb;
+	
+	public int specialNumber = 0;
 	public GameObject freezeBox;
 	public GameObject blastEffect;
 	public GameObject portalIn;
@@ -46,6 +48,8 @@ public class PlayerControllerMenu : MonoBehaviour {
 			InputManager();
 		}
 		cantMoveSecond -= Time.deltaTime;
+		
+		
 	}
 	
 	void InputManager() {
@@ -71,6 +75,7 @@ public class PlayerControllerMenu : MonoBehaviour {
 			axis = Input.GetAxis("Player1_Axis");
 			jetPack = Input.GetAxis("Player1_JetPack");
 			dropBomb = Input.GetKeyDown(KeyCode.Joystick1Button2);
+			special = Input.GetKeyDown(KeyCode.Joystick1Button3);
 			prevPlayer = Input.GetKeyDown(KeyCode.Joystick1Button4);
 			nextPlayer = Input.GetKeyDown(KeyCode.Joystick1Button5);
 		}
@@ -78,6 +83,7 @@ public class PlayerControllerMenu : MonoBehaviour {
 			axis = Input.GetAxis("Player2_Axis");
 			jetPack = Input.GetAxis("Player2_JetPack");
 			dropBomb = Input.GetKeyDown(KeyCode.Joystick2Button2);
+			special = Input.GetKeyDown(KeyCode.Joystick2Button3);
 			prevPlayer = Input.GetKeyDown(KeyCode.Joystick2Button4);
 			nextPlayer = Input.GetKeyDown(KeyCode.Joystick2Button5);
 		}
@@ -87,16 +93,17 @@ public class PlayerControllerMenu : MonoBehaviour {
 			_bomb.transform.position = gameObject.transform.position;
 		}
 		
-		if (nextPlayer) pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().CharacterChoose(playerNumber, 1);
-		if (prevPlayer) pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().CharacterChoose(playerNumber, -1);
+		if (nextPlayer) pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().CharacterChoose(gameObject, playerNumber, 1);
+		if (prevPlayer) pointCharacterSelection.GetComponent<PointCharacterSelectionScript>().CharacterChoose(gameObject, playerNumber, -1);
 		
 		if (special) DoSpecial();
 	}
 	
 	void DoSpecial() {
-//		SpecialFreeze();
-		SpecialBlast();
-//		SpecialBlink();
+		if (specialNumber == 0) SpecialFreeze();
+		if (specialNumber == 1) SpecialBlast();
+		if (specialNumber == 2) SpecialBlink();
+		if (specialNumber == 3) SpecialGiant();
 	}
 	
 	void SpecialBlast() {
@@ -124,6 +131,10 @@ public class PlayerControllerMenu : MonoBehaviour {
 		Instantiate(portalOut, blinkTo, Quaternion.identity);
 		Instantiate(portalIn, transform.position, Quaternion.identity);
 		transform.position = blinkTo;
+	}
+	
+	void SpecialGiant() {
+		GetComponent<Animator>().SetTrigger("Giant");
 	}
 	
 	public void AddBlastForce(Vector3 expPosition, float expRadius, float expForce) {

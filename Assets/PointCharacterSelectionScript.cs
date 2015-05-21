@@ -38,7 +38,7 @@ public class PointCharacterSelectionScript : MonoBehaviour {
 		}
 	}
 	
-	public void CharacterChoose(int PlayerNumber, int Indicator) {
+	public void CharacterChoose(GameObject player, int PlayerNumber, int Indicator) {
 		int index = 0;
 		int before = 0;
 		for(int i=0;i<selectionArray.Length;i++) {	
@@ -53,16 +53,18 @@ public class PointCharacterSelectionScript : MonoBehaviour {
 			index = ((index + Indicator) + selectionArray.Length) % selectionArray.Length;
 		}
 		
+		player.GetComponent<PlayerControllerMenu>().specialNumber = (int)(index / 4);
 		selectionArray[index] = PlayerNumber;
 		selectionArray[before] = -1;
 	}
 	
-	public void NewPlayerJoin(int PlayerNumber) {
+	public void NewPlayerJoin(GameObject player, int PlayerNumber) {
 		int index = 0;
 		while (selectionArray[index] != -1) {
 			index++;
 		}
 		
+		player.GetComponent<PlayerControllerMenu>().specialNumber = (int)(index / 4);
 		selectionArray[index] = PlayerNumber;
 	}
 	

@@ -6,7 +6,7 @@ public class StartGameCountdown : MonoBehaviour {
 	public GameObject localMultiplayerMenu;
 	
 	private GameObject gameData;
-	private int countdown = 15;
+	private int countdown = 100;
 	private bool stopCountdown = true;
 	private float second = 0;
 
@@ -55,7 +55,7 @@ public class StartGameCountdown : MonoBehaviour {
 	public void StartCountdown() {
 		if (stopCountdown == true) {
 			stopCountdown = false;
-			countdown = 15;
+			countdown = 100;
 			GetComponent<TextMesh>().text = countdown + "";
 			GetComponent<MeshRenderer>().enabled = true;
 		}
