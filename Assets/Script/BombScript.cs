@@ -58,12 +58,13 @@ public class BombScript : MonoBehaviour {
 		Destroy(gameObject);
 	}
 	
-	public void AddBlastVorce(Vector3 expPosition, float expRadius, float expForce) {
+	public void AddBlastForce(Vector3 expPosition, float expRadius, float expForce) {
 		var dir = (gameObject.transform.position - expPosition);
 		float calc = 1 - (dir.magnitude / expRadius);
 		if (calc <= 0) {
 			calc = 0;		
 		}
+		if (calc == 0) return;
 		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 		GetComponent<Rigidbody2D>().AddForce (dir.normalized * expForce * calc);
 	}

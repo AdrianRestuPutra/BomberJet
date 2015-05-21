@@ -5,7 +5,15 @@ public class PlayerControllerMenu : MonoBehaviour {
 
 	public int controllerType;
 	public int playerNumber;
+	
+	public GameObject selector;
+	public Sprite[] playerSelector;
+	
 	public GameObject bomb;
+	public GameObject freezeBox;
+	public GameObject blastEffect;
+	public GameObject portalIn;
+	public GameObject portalOut;
 	
 	private float moveForce = 10;
 	private float jetForce = 10;
@@ -16,6 +24,9 @@ public class PlayerControllerMenu : MonoBehaviour {
 	private bool dropBomb;
 	private bool nextPlayer, prevPlayer;
 	private bool special = false;
+	private bool freezing = false;
+	
+	private float cantMoveSecond = 0;
 	
 	private GameObject pointCharacterSelection;
 
@@ -30,7 +41,11 @@ public class PlayerControllerMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		InputManager();
+		if (cantMoveSecond <= 0) {
+			cantMoveSecond = 0;
+			InputManager();
+		}
+		cantMoveSecond -= Time.deltaTime;
 	}
 	
 	void InputManager() {
@@ -79,16 +94,86 @@ public class PlayerControllerMenu : MonoBehaviour {
 	}
 	
 	void DoSpecial() {
+//		SpecialFreeze();
+		SpecialBlast();
+//		SpecialBlink();
+	}
+	
+	void SpecialBlast() {
 		GameObject[] bomb = GameObject.FindGameObjectsWithTag("Bomb");
 		for(int i=0;i<bomb.Length;i++)
-			bomb[i].GetComponent<BombScript>().AddBlastVorce(transform.position, 10, 700);
+			bomb[i].GetComponent<BombScript>().AddBlastForce(transform.position, 10, 1000);
+			
+		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+		foreach(GameObject player in players) {
+			if (player.Equals(gameObject) == false) {
+				player.GetComponent<PlayerControllerMenu>().AddBlastForce(transform.position, 10, 1000);
+			}
+		}
+		
+		Instantiate(blastEffect, gameObject.transform.position, Quaternion.identity);
+	}
+	
+	void SpecialFreeze() {
+		GameObject ice = Instantiate(freezeBox, gameObject.transform.position, Quaternion.identity) as GameObject;
+		ice.GetComponent<IceEffectScript>().owner = gameObject;
+	}
+	
+	void SpecialBlink() {
+		Vector3 blinkTo = new Vector3(0, 50, 0);
+		Instantiate(portalOut, blinkTo, Quaternion.identity);
+		Instantiate(portalIn, transform.position, Quaternion.identity);
+		transform.position = blinkTo;
+	}
+	
+	public void AddBlastForce(Vector3 expPosition, float expRadius, float expForce) {
+		var dir = (gameObject.transform.position - expPosition);
+		float calc = 1 - (dir.magnitude / expRadius);
+		if (calc <= 0) {
+			calc = 0;
+		}
+		if (calc == 0) return;
+		GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+		GetComponent<Rigidbody2D>().AddForce (dir.normalized * expForce * calc);
+		cantMoveSecond = 0.5f;
 	}
 	
 	void FixedUpdate() {
+		FixedUpdateMove();
+		VisualizeSelector();
+	}
+	
+	void VisualizeSelector() {
+		selector.GetComponent<SpriteRenderer>().sprite = playerSelector[playerNumber];
+	}
+	
+	void FixedUpdateMove() {
+		if (cantMoveSecond > 0) return;
 		if (axis <= -0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(-moveForce, GetComponent<Rigidbody2D>().velocity.y);
 		else if (axis >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(moveForce, GetComponent<Rigidbody2D>().velocity.y);
 		else GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
 		
 		if (jetPack >= 0.5f) GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jetForce);
+	}
+	
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag.Equals("Ice") && freezing == false) {
+			if (other.gameObject.GetComponent<IceEffectScript>().owner.Equals(gameObject) == true)
+				return;
+			freezing = true;
+			moveForce /= 4f;
+			jetForce /= 4f;
+			GetComponent<Rigidbody2D>().gravityScale = 1;
+		}
+	}
+	
+	void OnTriggerExit2D(Collider2D other) {
+		if (freezing == false)	return;
+		if (other.gameObject.tag.Equals("Ice")) {
+			moveForce *= 4f;
+			jetForce *= 4f;
+			GetComponent<Rigidbody2D>().gravityScale = 3;
+			freezing = false;
+		}
 	}
 }

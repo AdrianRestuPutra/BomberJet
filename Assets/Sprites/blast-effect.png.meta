@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: a3cf112899bd75c4db69b473e564af01
-timeCreated: 1432205173
+guid: cf391f993f78a6349b20ba112fb5e9d8
+timeCreated: 1432195146
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: blast-outer
+    21300002: blast-inner
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,14 +32,14 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -48,7 +50,27 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: blast-outer
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1501
+        height: 1500
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blast-inner
+      rect:
+        serializedVersion: 2
+        x: 1651
+        y: 113
+        width: 1273
+        height: 1274
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 
