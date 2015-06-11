@@ -100,10 +100,10 @@ public class PlayerControllerMenu : MonoBehaviour {
 	}
 	
 	void DoSpecial() {
-		if (specialNumber == 0) SpecialFreeze();
-		if (specialNumber == 1) SpecialBlast();
-		if (specialNumber == 2) SpecialBlink();
-		if (specialNumber == 3) SpecialGiant();
+		if (specialNumber == 0) SpecialBlast();
+		if (specialNumber == 1) SpecialGiant();
+		if (specialNumber == 2) SpecialFreeze();
+		if (specialNumber == 3) SpecialBlink();
 	}
 	
 	void SpecialBlast() {

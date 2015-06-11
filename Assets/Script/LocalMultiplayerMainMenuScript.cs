@@ -66,7 +66,7 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 			}
 		}
 		
-		cancelList[0] = Input.GetKeyDown(KeyCode.Escape);			// 0
+		cancelList[0] = Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace);			// 0
 		cancelList[1] = Input.GetKeyDown(KeyCode.Joystick1Button1);	// 1
 		cancelList[2] = Input.GetKeyDown(KeyCode.Joystick2Button1);	// 2
 		cancelList[3] = Input.GetKeyDown(KeyCode.Joystick3Button1);	// 3
@@ -96,7 +96,6 @@ public class LocalMultiplayerMainMenuScript : MonoBehaviour {
 				if (listPlayer[i])
 					sumPlayer++;
 			}
-			
 			if (sumPlayer == 0) {
 				mainMenu.GetComponent<MainMenuScript>().enabled = true;
 				this.enabled = false;
